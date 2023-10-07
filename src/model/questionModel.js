@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const QuestionSchema = new mongoose.Schema({
-    question: {type: String, required: true},
+    questionName: {type: String, required: true},
 
     variantOne: {type: String, required: true},
     variantTwo: {type: String, required: true},

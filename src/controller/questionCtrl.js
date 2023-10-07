@@ -37,13 +37,13 @@ const questionCtrl = {
     },
     addQuestion: async (req, res) => {
         try {
-            const { question } = req.body;
-            const isExists = await Questions.findOne({ question })
+            const { questionName } = req.body;
+            const isExists = await Questions.findOne({ questionName })
             if (isExists) return res.status(402).send({ message: "This question already exists!" })
             const newQuestion = await Questions.create(
                 req.body
             )
-            const category = await Categories.findOne({ _id: newQuestion.category })
+            const category = await Questions.findOne({ _id: newQuestion.question })
             if (!category) return res.status(404).send({ message: "Category not found" })
             await Categories.findOneAndUpdate({ _id: newQuestion.category }, { $push: { questions: newQuestion } })
             res.status(201).send({ message: "Question created successfully", newQuestion })
@@ -56,9 +56,13 @@ const questionCtrl = {
     updQuestion: async (req, res) => {
         const { id } = req.params;
         try {
-
+            const updateQuestion = await Questions.findByIdAndUpdate(id, req.body, {new: true})
+            if(updateQuestion) {
+                return res.status(200).send({message: "Update question successfully"})
+            }
         } catch (error) {
             console.error(error)
+            res.status(500).send({message: "Sometging went wrong"})
         }
     },
 

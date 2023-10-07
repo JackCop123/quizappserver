@@ -28,11 +28,11 @@ const examCtrl = {
     },
 
     addExam: async (req, res) => {
-        const {examName, questionsCount, time} = req.body;
+        const {examName, questionsCount, time, Category} = req.body;
         try {
             if(req.body.role = 101 || req.existingUser) {
 
-                if(!examName || !time || !questionsCount ) {
+                if(!examName || !time || !questionsCount || !Category ) {
                   return res.status(403).send({message: "Please fill all the fields"})
                 }
 
